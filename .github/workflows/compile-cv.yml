@@ -17,6 +17,8 @@ jobs:
 
       - name: Build Docker image and extract PDF
         run: |
+          
+          cd examples
           # Build the image
           docker build -t cv-builder --platform linux/amd64 .
           
