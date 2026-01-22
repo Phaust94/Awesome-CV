@@ -25,21 +25,22 @@ jobs:
           # Create a container (so we can copy from it)
           docker create --name cv-container --platform linux/amd64 cv-builder
           
-          # Echo for debug
-          echo BUILT
-          
           # Copy the compiled PDF out to the 'output' directory
-          docker cp cv-container:/resume/out/resume.pdf ./output/cv_out.pdf
-          
-          echo COPIED
-          
-          tail ./output/cv_out.pdf
-          
-          echo ENDTAIL
+          docker cp cv-container:/resume/out/resume.pdf ./cv_out.pdf
 
       - name: Upload PDF Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Resume-PDF
-          path: ./output/cv_out.pdf
+          path: cv_out.pdf
           if-no-files-found: error
+
+      - name: Release PDF
+        uses: softprops/action-gh-release@v1
+        if: github.ref == 'refs/heads/master'
+        with:
+          files: cv_out.pdf
+          tag_name: latest
+          body: "Automatically generated resume from the latest commit."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
