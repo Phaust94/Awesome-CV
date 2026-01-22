@@ -25,6 +25,9 @@ jobs:
           # Create a container (so we can copy from it)
           docker create --name cv-container --platform linux/amd64 cv-builder
           
+          # Echo for debug
+          echo BUILT
+          
           # Copy the compiled PDF out to the 'output' directory
           docker cp cv-container:/resume/out/resume.pdf ./output/cv_out.pdf
 
