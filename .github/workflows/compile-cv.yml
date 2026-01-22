@@ -30,6 +30,12 @@ jobs:
           
           # Copy the compiled PDF out to the 'output' directory
           docker cp cv-container:/resume/out/resume.pdf ./output/cv_out.pdf
+          
+          echo COPIED
+          
+          tail ./output/cv_out.pdf
+          
+          echo ENDTAIL
 
       - name: Upload PDF Artifact
         uses: actions/upload-artifact@v4
